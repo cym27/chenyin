@@ -1,13 +1,10 @@
 /*
-项目：鲜博士晚安宇宙，小程序
-功能：签到  cron 22 8,12 * * * 
-每天签到有机会得实物
-抓取请求头里的  openid和token
+
 作者：沉音
 
 
  ========= 青龙 =========
- * 变量格式：export zss=' openid &token @ openid &token '  多个账号用 @分割 
+
 
 */
 const $ = new Env('赚30');
@@ -105,13 +102,8 @@ var options = {
                     log(`\n\n【debug】===============这是 返回data==============`);
                     log(JSON.stringify(response.data));
                 }
-  if(data.ret == 4){
-   
-     msg+='赚30已有库存为'+data.code
-     log('赚30已有库存为'+data.code)  
- }else
- log('赚30已有库存为'+"\n\n"+data.code)                  
-msg+='赚30已有库存为'+"\n\n"+data.code
+                  
+msg+=JSON.stringify(response.data)
                     
                 
             } catch (e) {
