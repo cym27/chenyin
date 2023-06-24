@@ -1,5 +1,5 @@
 /*
-项目：蜜糖好物，小程序
+项目：蜜堂好物，小程序
 功能：签到  cron 22 8,12 * * * 
 玩法：两人购买100元话费，签到七天100元话费到账并反20元
 抓取 authorization
@@ -7,10 +7,10 @@
 
 
  ========= 青龙 =========
- * 变量格式：export mtat=' authorization'  多个账号用 @分割 
+ * 变量格式：export mtat=' authorization&appointmentId'  多个账号用 @分割 
 
 */
-const $ = new Env('蜜糖签到');
+const $ = new Env('蜜堂签到');
 const axios = require('axios');
 let request = require("request");
 request = request.defaults({
@@ -43,7 +43,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
 
 
 
-            log(`\n============ 微信小程序：蜜糖好物   京东上车群  1028220779 ============`)
+            log(`\n============ 微信小程序：蜜堂好物    ============`)
             log(`\n=================== 共找到 ${mtatArr.length} 个账号 ===================`)
             if (debug) {
                 log(`【debug】 这是你的全部账号数组:\n ${mtatArr}`);
@@ -53,7 +53,9 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 let num = index + 1
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
-                data = mtatArr[index].split('&');            
+                data = mtatArr[index].split('&');  
+                at=data [0]; 
+                id=data [1];           
 
 await checkin()
 await ts()
@@ -78,7 +80,7 @@ const options = {
   headers: {
     Host: 'api.mitangwl.cn',
     Connection: 'keep-alive',
-    authorization: mtat,
+    authorization:  data[0],
     referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
     xweb_xhr: '1',
     'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945',
@@ -92,7 +94,7 @@ const options = {
     'Content-Length': '32',
     'content-type': 'application/json'
   },
-  data: {appointmentId: 173871, loc: 0}
+  data: {appointmentId: data[1], loc: 0}
 };
     if (debug) {
             log(`\n【debug】=============== 这是  请求 url ===============`);
