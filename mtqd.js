@@ -7,7 +7,7 @@
 
 
  ========= 青龙 =========
- * 变量格式：export mtat=' authorization&appointmentId'  多个账号用 @分割 
+ * 变量格式：export mtat=' authorization'  多个账号用 @分割 
 
 */
 const $ = new Env('蜜堂签到');
@@ -21,7 +21,7 @@ const {
 } = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
-
+ process.env.mtat ="2dd3ae6b-a0b4-4e8d-a735-6dac0265091f&191357"
 let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
 let mtatArr = [];
 let data = '';
@@ -54,8 +54,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
                 data = mtatArr[index].split('&');  
-                at=data [0]; 
-                id=data [1];           
+           
 
 await checkin()
 await ts()
@@ -108,8 +107,9 @@ const options = {
                     log(JSON.stringify(response.data));
                 }
 
-  log(JSON.stringify(response.data))                  
-msg+=JSON.stringify(response.data)
+  log(JSON.stringify(response.data));
+  log (data.msg );              
+msg+=JSON.stringify(response.data);
                     
                 
             } catch (e) {
@@ -140,7 +140,7 @@ const options = {
     Connection: 'keep-alive',
     'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.4.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF',
     xweb_xhr: '1',
-    authorization: mtat,
+    authorization: data[0],
     'Content-Type': 'application/json',
     Accept: '*/*',
     'Sec-Fetch-Site': 'cross-site',
