@@ -108,8 +108,8 @@ const options = {
                     log(JSON.stringify(response.data));
                 }
 
-  log(JSON.stringify(response.data)                  
-msg+=JSON.stringify(response.data
+  log(JSON.stringify(response.data))                  
+msg+=JSON.stringify(response.data)
                     
                 
             } catch (e) {
