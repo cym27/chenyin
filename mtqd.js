@@ -107,11 +107,9 @@ const options = {
                     log(`\n\n【debug】===============这是 返回data==============`);
                     log(JSON.stringify(response.data));
                 }
-  if(data.errcode == -3){
-     log(data.msg)
- }else
-  log(data.msg)                  
-msg+=data.msg
+
+  log(JSON.stringify(response.data)                  
+msg+=JSON.stringify(response.data
                     
                 
             } catch (e) {
