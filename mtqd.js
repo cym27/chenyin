@@ -20,8 +20,8 @@ const {
     log
 } = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
-const debug = 0; //0为关闭调试，1为打开调试,默认为0
- process.env.mtat ="2dd3ae6b-a0b4-4e8d-a735-6dac0265091f&191357"
+const debug = 1; //0为关闭调试，1为打开调试,默认为0
+
 let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
 let mtatArr = [];
 let data = '';
@@ -53,8 +53,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 let num = index + 1
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
-                data = mtatArr[index].split('&');  
-           
+                data = mtatArr[index].split('&');            
 
 await checkin()
 await ts()
@@ -77,23 +76,17 @@ const options = {
   method: 'POST',
   url: 'https://api.mitangwl.cn/app/my/appointmentSign',
   headers: {
+    'Accept-Language': 'zh-CN,zh;q=0.8',
+    'User-Agent': 'okhttp-okgo/jeasonlzy',
+    authorization: mtat,
+    'Content-Type': 'application/json;charset=utf-8',
     Host: 'api.mitangwl.cn',
-    Connection: 'keep-alive',
-    authorization:  data[0],
-    referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
-    xweb_xhr: '1',
-    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36 MicroMessenger/7.0.20.1781(0x6700143B) NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF XWEB/6945',
-    'Content-Type': 'application/json',
-    Accept: '*/*',
-    'Sec-Fetch-Site': 'cross-site',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Dest': 'empty',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh',
-    'Content-Length': '32',
+    Cookie: 'JSESSIONID='+mtat,
+
+    'Accept-Encoding': 'deflate, gzip',
     'content-type': 'application/json'
   },
-  data: {appointmentId: data[1], loc: 0}
+  data: {appointmentId: 193175, isClick: 0, loc: 0}
 };
     if (debug) {
             log(`\n【debug】=============== 这是  请求 url ===============`);
@@ -106,10 +99,11 @@ const options = {
                     log(`\n\n【debug】===============这是 返回data==============`);
                     log(JSON.stringify(response.data));
                 }
-
-  log(JSON.stringify(response.data));
-  log (data.msg );              
-msg+=JSON.stringify(response.data);
+  if(data.errcode == -3){
+     log(data.msg)
+ }else
+  log(data.msg)                  
+msg+=data.msg
                     
                 
             } catch (e) {
@@ -140,7 +134,7 @@ const options = {
     Connection: 'keep-alive',
     'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.4.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF',
     xweb_xhr: '1',
-    authorization: data[0],
+    authorization: mtat,
     'Content-Type': 'application/json',
     Accept: '*/*',
     'Sec-Fetch-Site': 'cross-site',
