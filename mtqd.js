@@ -10,7 +10,7 @@
  * 变量格式：export mtat=' openid &token @ openid &token '  多个账号用 @分割 
 
 */
-const $ = new Env('鲜博士');
+const $ = new Env('蜜糖签到');
 const axios = require('axios');
 let request = require("request");
 request = request.defaults({
