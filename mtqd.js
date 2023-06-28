@@ -21,9 +21,9 @@ const {
 } = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
-
+process.env.mtat="b8f1d283-05c6-4984-8b75-e1c765395549@515017d5-26b4-48c6-bac9-9b44ad923224"
 let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
-let mtatArr =[];
+let mtatArr = [];
 let data = '';
 let msg = '';
 var hours = new Date().getMonth();
@@ -53,7 +53,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 let num = index + 1
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
-                data = mtatArr[index].split('&');            
+                mtat = mtatArr[index];            
 
 await id ()
 await checkin()
@@ -86,7 +86,9 @@ const options = {
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Dest': 'empty',
     Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
+    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'en-us,en',
+    'Content-Length': '27',
     'content-type': 'application/json'
   },
   data: {pageNum: 1, pageSize: 10}
@@ -143,6 +145,8 @@ const options = {
     'Content-Type': 'application/json;charset=utf-8',
     Host: 'api.mitangwl.cn',
     Cookie: 'JSESSIONID='+mtat,
+
+    'Accept-Encoding': 'deflate, gzip',
     'content-type': 'application/json'
   },
   data: {appointmentId: appid, isClick: 0, loc: 0}
@@ -200,7 +204,9 @@ const options = {
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Dest': 'empty',
     Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
+    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'en-us,en',
+    'Content-Length': '27',
     'content-type': 'application/json'
   },
   data: {pageNum: 1, pageSize: 10}
