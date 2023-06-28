@@ -10,7 +10,7 @@
  * 变量格式：export mtat=' openid &token @ openid &token '  多个账号用 @分割 
 
 */
-const $ = new Env('鲜博士');
+const $ = new Env('蜜糖签到');
 const axios = require('axios');
 let request = require("request");
 request = request.defaults({
@@ -86,9 +86,7 @@ const options = {
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Dest': 'empty',
     Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
-    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'en-us,en',
-    'Content-Length': '27',
     'content-type': 'application/json'
   },
   data: {pageNum: 1, pageSize: 10}
@@ -145,8 +143,6 @@ const options = {
     'Content-Type': 'application/json;charset=utf-8',
     Host: 'api.mitangwl.cn',
     Cookie: 'JSESSIONID='+mtat,
-
-    'Accept-Encoding': 'deflate, gzip',
     'content-type': 'application/json'
   },
   data: {appointmentId: appid, isClick: 0, loc: 0}
@@ -204,9 +200,7 @@ const options = {
     'Sec-Fetch-Mode': 'cors',
     'Sec-Fetch-Dest': 'empty',
     Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
-    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'en-us,en',
-    'Content-Length': '27',
     'content-type': 'application/json'
   },
   data: {pageNum: 1, pageSize: 10}
