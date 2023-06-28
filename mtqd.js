@@ -20,8 +20,8 @@ const {
     log
 } = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
-const debug = 1; //0为关闭调试，1为打开调试,默认为0
-
+const debug = 0; //0为关闭调试，1为打开调试,默认为0
+process.env.mtat="515017d5-26b4-48c6-bac9-9b44ad923224"
 let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
 let mtatArr = [];
 let data = '';
@@ -54,7 +54,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
                 data = mtatArr[index].split('&');            
-
+await id ()
 await checkin()
 await ts()
 }
@@ -64,6 +64,69 @@ await ts()
 })()
 .catch((e) => log(e))
     .finally(() => $.done())
+
+//获取id/
+
+
+async function id () {
+    return new Promise((resolve) => {
+
+const options = {
+  method: 'POST',
+  url: 'https://api.mitangwl.cn/app/my/queryMyApprointmentList',
+  headers: {
+    Host: 'api.mitangwl.cn',
+    Connection: 'keep-alive',
+    'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.4.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF',
+    xweb_xhr: '1',
+    authorization: mtat,
+    'Content-Type': 'application/json',
+    Accept: '*/*',
+    'Sec-Fetch-Site': 'cross-site',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Dest': 'empty',
+    Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/52/page-frame.html',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-us,en',
+    'Content-Length': '27',
+    'content-type': 'application/json'
+  },
+  data: {pageNum: 1, pageSize: 10}
+};
+    if (debug) {
+            log(`\n【debug】=============== 这是  请求 url ===============`);
+            log(JSON.stringify(options));
+        }
+        axios.request(options).then(async function(response) {
+            try {
+                 data = response.data;
+                if (debug) {
+                    log(`\n\n【debug】===============这是 返回data==============`);
+                    log(JSON.stringify(response.data));
+                }
+log("获取到的id");
+                    
+                     appid=data.data.list[0].appointmentId;
+                     log("appid为"+appid);
+                
+            } catch (e) {
+                log(`异常：${data}，原因：${data.message}`)
+            }
+        }).catch(function(error) {
+            console.error(error);
+        }).then(res => {
+            //这里处理正确返回
+            resolve();
+        });
+    })
+
+} 
+
+
+
+
+
+
 
 
         /*
@@ -86,7 +149,7 @@ const options = {
     'Accept-Encoding': 'deflate, gzip',
     'content-type': 'application/json'
   },
-  data: {appointmentId: 193175, isClick: 0, loc: 0}
+  data: {appointmentId: appid, isClick: 0, loc: 0}
 };
     if (debug) {
             log(`\n【debug】=============== 这是  请求 url ===============`);
@@ -119,13 +182,13 @@ msg+=data.msg
 
 } 
 
-//第二段
-
-async function ts() {
-    return new Promise((resolve) => {
-        /*
+//第二段      
+  /*
 天数
 */
+async function ts() {
+    return new Promise((resolve) => {
+
 const options = {
   method: 'POST',
   url: 'https://api.mitangwl.cn/app/my/queryMyApprointmentList',
