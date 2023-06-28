@@ -1,16 +1,16 @@
 /*
-项目：蜜堂好物，小程序
+项目：鲜博士晚安宇宙，小程序
 功能：签到  cron 22 8,12 * * * 
-玩法：两人购买100元话费，签到七天100元话费到账并反20元
-抓取 authorization
+每天签到有机会得实物
+抓取请求头里的  openid和token
 作者：沉音
 
 
  ========= 青龙 =========
- * 变量格式：export mtat=' authorization'  多个账号用 @分割 
+ * 变量格式：export mtat=' openid &token @ openid &token '  多个账号用 @分割 
 
 */
-const $ = new Env('蜜堂签到');
+const $ = new Env('鲜博士');
 const axios = require('axios');
 let request = require("request");
 request = request.defaults({
@@ -21,9 +21,9 @@ const {
 } = console;
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
-process.env.mtat="515017d5-26b4-48c6-bac9-9b44ad923224"
+process.env.mtat="b8f1d283-05c6-4984-8b75-e1c765395549@515017d5-26b4-48c6-bac9-9b44ad923224"
 let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
-let mtatArr = [];
+let mtatArr = mtat.split('@');
 let data = '';
 let msg = '';
 var hours = new Date().getMonth();
@@ -43,7 +43,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
 
 
 
-            log(`\n============ 微信小程序：蜜堂好物    ============`)
+            log(`\n============ 微信小程序：鲜博士晚安宇宙   京东上车群  1028220779 ============`)
             log(`\n=================== 共找到 ${mtatArr.length} 个账号 ===================`)
             if (debug) {
                 log(`【debug】 这是你的全部账号数组:\n ${mtatArr}`);
@@ -54,6 +54,7 @@ var timestamp = Math.round(new Date().getTime()).toString();
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
                 data = mtatArr[index].split('&');            
+
 await id ()
 await checkin()
 await ts()
@@ -64,7 +65,6 @@ await ts()
 })()
 .catch((e) => log(e))
     .finally(() => $.done())
-
 //获取id/
 
 
@@ -239,6 +239,12 @@ msg+=`\n\n`+ data.data.list[0].productName +`\n\n`+ '签到天数' + data.data.l
     })
 
 }  
+
+
+
+
+
+
 async function Envs() {
     if (mtat) {
         if (mtat.indexOf("@") != -1) {
