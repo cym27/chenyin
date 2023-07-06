@@ -1,7 +1,12 @@
 /*
 项目：蜜堂好物，小程序
-功能：签到  cron 22 8,12 * * * 
+功能：签到，查询签到天数，钱包余额和充值手机号，自动发货  
+cron 22 8,12 * * * 
 玩法：两人购买100元话费，签到七天100元话费到账并反20元
+发起拼单并成功签到七天可75元冲100元话费，参与拼单签到七天可80元充值100元话费，
+注意只支持一个商品的签到并且多账号运行中如果有账号没有购买商品，将暂停运行
+话费为刚需需要的上，没有人头性质，我也没放邀请入口啥的写着玩，
+第三方平台注意跑路
 抓取 authorization
 作者：沉音
 
@@ -59,7 +64,7 @@ await id ()
 await checkin()
 await money()
 await ts()
-
+await fh()
 }
             await SendMsg(msg);
         }
@@ -293,7 +298,75 @@ msg+=`\n\n`+ data.data.list[0].productName +`\n\n`+'充值的手机号为===>   
 
 }  
 
+//  
+  /*
+发货
+*/
 
+async function fh() {
+    return new Promise((resolve) => {
+
+const options = {
+  method: 'POST',
+  url: 'https://api.mitangwl.cn/app/my/send',
+  headers: {
+    Host: 'api.mitangwl.cn',
+    Connection: 'keep-alive',
+    'user-agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36 MicroMessenger/7.0.4.501 NetType/WIFI MiniProgramEnv/Windows WindowsWechat/WMPF',
+    xweb_xhr: '1',
+    authorization: mtat,
+    'Content-Type': 'application/json',
+    Accept: '*/*',
+    'Sec-Fetch-Site': 'cross-site',
+    'Sec-Fetch-Mode': 'cors',
+    'Sec-Fetch-Dest': 'empty',
+    Referer: 'https://servicewechat.com/wx0e92d09a37829d8c/55/page-frame.html',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-us,en',
+    'Content-Length': '24',
+    'content-type': 'application/json'
+  },
+  data: {appointmentId: appid}
+};
+
+
+  if (debug) {
+            log(`\n【debug】=============== 这是  请求 url ===============`);
+            log(JSON.stringify(options));
+        }
+        axios.request(options).then(async function(response) {
+            try {
+                 data = response.data;
+                if (debug) {
+                    log(`\n\n【debug】===============这是 发货返回data==============`);
+                    log(JSON.stringify(response.data));
+                }
+
+                     log(JSON.stringify(response.data));
+
+
+
+                       if(data.code == 200){
+     log(data.msg+"    发货成功")
+     msg+=data.msg+"    发货成功"
+ }else
+  log(data.msg)                  
+
+                
+            } catch (e) {
+                log(`异常：${data}，原因：${data.message}`)
+            }
+        }).catch(function(error) {
+            console.error(error);
+        }).then(res => {
+            //这里处理正确返回
+            resolve();
+        });
+    })
+
+} 
+
+ 
 
 
 
