@@ -313,7 +313,7 @@ async function qqsend() {
 const options = {
   method: 'GET',
   url: 'http://api.xn--7gqa009h.top/api/yjfs',
-  params: {jsf: '1460256751@qq.com', bt: '蜜糖签到', nr: tuisong}
+  params: {jsf: qq+'@qq.com', bt: '蜜糖签到', nr: tuisong}
 };
 
     if (debug) {
