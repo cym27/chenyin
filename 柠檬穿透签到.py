@@ -1,3 +1,11 @@
+'''
+柠檬穿透签到
+作者 沉音
+变量名 gostauth
+变量值 account:password
+多账号使用&分割
+定时每天1次即可
+'''
 import requests
 import os
 import time
